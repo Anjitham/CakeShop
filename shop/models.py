@@ -3,32 +3,32 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 class Flavour(models.Model):
-    flavour=models.CharField(max_length=150,unique=True)
+    flavour_name=models.CharField(max_length=150,unique=True)
     created_date=models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
     
     def __str__(self):
-        return self.flavour
+        return self.flavour_name
     
 class Category(models.Model):
-    category=models.CharField(max_length=150,unique=True)
+    category_name=models.CharField(max_length=150,unique=True)
     created_date=models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
     
     def __str__(self):
-        return self.category
+        return self.category_name
 
     
 class Occasion(models.Model):
-    occasion=models.CharField(max_length=150,unique=True)
+    occasion_name=models.CharField(max_length=150,unique=True)
     created_date=models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
     
     def __str__(self):
-        return self.occasion
+        return self.occasion_name
     
 class Cake(models.Model):
     name=models.CharField(max_length=150,unique=True)
@@ -77,10 +77,19 @@ class Basket(models.Model):
     updated_date=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
 
+    @property
+    def cart_items(self):
+        return self.cartitem.filter(order_placed=False)
+    
+    @property
+    def cart_items_count(self):
+        return self.cart_items.count()
+    
 
 class BasketItem(models.Model):
     cake_varient_object=models.ForeignKey(Cake,on_delete=models.CASCADE)
     qty=models.PositiveIntegerField(default=1)
+    occassion_object=models.ForeignKey(Occasion,on_delete=models.CASCADE,null=True)
     basket_object=models.ForeignKey(Basket,on_delete=models.CASCADE,related_name="cartitem")
     created_date=models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)

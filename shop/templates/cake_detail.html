@@ -1,7 +1,8 @@
 {%extends 'base.html'%}
+{%load static%}
 {%block main_block%}
 
-<div class="flex max-w-2xl flex-col items-center rounded-md border md:flex-row my-12 mx-96">
+<!-- <div class="flex max-w-2xl flex-col items-center rounded-md border md:flex-row my-12 mx-96">
   <div class="h-full w-full md:h-[500px] md:w-[350px]">
     <img
       src="{{data.image.url}}"
@@ -21,10 +22,30 @@
         Shape: {{data.shape}}
        </p>
        <p class="mt-3 text-sm text-gray-600">
-        Weight: {{data.price}}
+        Price: {{data.price}}
        </p>
        <p class="mt-3 text-sm text-gray-600">
-        Flavour: {{data.flavour_object.flavour}}
+        Flavour: {{data.flavour_object.flavour_name}}
+       </p>
+
+      <form action="{% url 'add-to-basket' data.id %}" method="post">     
+        {%csrf_token%}
+       <div>
+        <span class="mt-3 text-sm text-gray-600">
+            Occassion   
+        <select name="occasion" id="">
+          {%for oc in data.cake_object.Occasion_object.all %}
+           <option value=" {{oc.occasion_name}}"> {{oc.occasion_name}}</option>
+          {%endfor%}
+        </select>
+      </span>
+        <span><i class="bx bx-chevron-down"></i></span>
+       </div>
+      </form>
+
+       <p class="mt-3">
+        <label  for="" class="text-sm text-gray-600">Quantity</label> 
+        <input type="number" value="1"  name="qty" class=" text-sm text-gray-600 py-2 px-5"/>
        </p>
        <button
       type="button"
@@ -35,11 +56,69 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->
+
+
+<section class="overflow-hidden">
+  <div class="mx-auto max-w-5xl px-5 py-24">
+    <div class="mx-auto flex flex-wrap items-center lg:w-4/5">
+      <img
+        alt="Nike Air Max 21A"
+        class="h-64 w-full rounded object-cover lg:h-96 lg:w-1/2"
+        src="{{data.image.url}}"
+      />
+      <div class="mt-6 w-full lg:mt-0 lg:w-1/2 lg:pl-10">
+        
+        <h1 class="my-4 text-3xl font-semibold text-black"> {{data.cake_object.name}}</h1>
+        <div class="my-4 flex items-center">
+        </div>
+        <p class="mt-3 text-sm text-gray-600">
+          Weight: {{data.weight}}
+         </p>
+         <p class="mt-3 text-sm text-gray-600">
+           Shape: {{data.shape}}
+          </p>
+          
+          <p class="mt-3 text-sm text-gray-600">
+           Flavour: {{data.flavour_object.flavour_name}}
+          </p>
+
+          <div class="mt-3" >
+            <form action="{% url 'add-to-basket' data.id %}" method="post">     
+              {%csrf_token%}
+             <div>
+              <span class="mt-3 text-sm text-gray-600">
+                  Occassion   
+              <select name="occasion" id="">
+                {%for oc in data.cake_object.Occasion_object.all %}
+                 <option value=" {{oc.occasion_name}}"> {{oc.occasion_name}}</option>
+                {%endfor%}
+              </select>
+            </span>
+              <span><i class="bx bx-chevron-down"></i></span>
+             </div>
+            </form>
+          </div>
+      
+        <div class="flex items-center justify-between">
+          <span class="title-font text-xl font-bold text-gray-900">
+            ₹{{data.price}}
+          </span>
+          <button
+            type="button"
+            class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
 {%endblock%}
 
-<!-- 
-{%for oc in data.cake_object.Occasion_object.occasion.all %}
-{{oc.occasion}}
-{%endfor%} -->
+
+

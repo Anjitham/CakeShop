@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic import View
-from shop.models import Cake,CakeVarient,Category
+from shop.models import Cake,CakeVarient,Category,Occasion,Flavour,Basket,BasketItem
 from shop.forms import RegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
 
@@ -40,6 +40,13 @@ class SignInView(View):
                 login(request,user_object)
                 return redirect("index")
         return render(request,"signin.html",{"form":form})
+
+#lh:8000/signout/
+class SignoutView(View):
+
+    def get(self,request,*args,**kwargs):
+        logout(request)
+        return redirect("signin")
     
 # lh:8000/
 # method:get
@@ -71,7 +78,25 @@ class CakeDetailsView(View):
         return render (request,"cake_detail.html",{"data":qs})
 
 #lh:8000/ 
-# class AddToBasketView(View):
+class AddToBasketView(View):
+
+    def post(self,request,*args,**kwargs):
+        occassion=request.POST.get("occasion")
+        occassion_obj=Occasion.objects.get(occassion_name=occassion)
+        qty=request.POST.get("qty")
+        id=kwargs.get("pk")
+        cakevarient_obj=CakeVarient.objects.get(id=id)
+        BasketItem.objects.create(
+            occassion_object=occassion_obj,
+            qty=qty,
+            cake_varient_object=cakevarient_obj,
+            basket_object=request.user.cart
+        )
+        print("done")
+        return redirect ("index")
+        
+
+
 
    
 
