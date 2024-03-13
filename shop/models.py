@@ -22,13 +22,13 @@ class Category(models.Model):
 
     
 class Occasion(models.Model):
-    Occasion=models.CharField(max_length=150,unique=True)
+    occasion=models.CharField(max_length=150,unique=True)
     created_date=models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
     
     def __str__(self):
-        return self.Occasion
+        return self.occasion
     
 class Cake(models.Model):
     name=models.CharField(max_length=150,unique=True)
@@ -42,8 +42,8 @@ class Cake(models.Model):
 
 class CakeVarient(models.Model):
     cake_object=models.ForeignKey(Cake,on_delete=models.CASCADE,related_name='cakeitem')
-    flavour_object=models.ForeignKey(Flavour,on_delete=models.CASCADE)
-    Category_object=models.ForeignKey(Category,on_delete=models.CASCADE)
+    flavour_object=models.ForeignKey(Flavour,on_delete=models.CASCADE,)
+    category_object=models.ForeignKey(Category,on_delete=models.CASCADE,name="cakecategory")
     image=models.ImageField(upload_to="cake_images",default="default.jpg",null=True,blank=True)
     shape_opt=(
         ("Square","Square"), 
@@ -86,7 +86,6 @@ class BasketItem(models.Model):
     updated_date=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
     is_order_placed=models.BooleanField(default=False)
-
 
 
 # default basket creation

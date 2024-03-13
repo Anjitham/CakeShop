@@ -18,11 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from shop import views
 from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("signup/",views.SignUpView.as_view(),name="signup"),
     path("index/",views.IndexView.as_view(),name="index"),
-    path("",views.SignInView.as_view(),name="signin")
-]
+    path("",views.SignInView.as_view(),name="signin"),
+    path("cake/<int:pk>/list/",views.CategoryListView.as_view(),name="Category-item-list"),
+    path("cake/<int:pk>/details",views.CakeDetailsView.as_view(),name="cake-details"),
+    
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

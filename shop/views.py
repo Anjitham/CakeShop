@@ -39,7 +39,7 @@ class SignInView(View):
             if user_object:
                 login(request,user_object)
                 return redirect("index")
-        return render(request,"sigin.html",{"form":form})
+        return render(request,"signin.html",{"form":form})
     
 # lh:8000/
 # method:get
@@ -48,4 +48,38 @@ class IndexView(View):
     def get(self,request,*args,**kwargs):
         qs=Category.objects.all()
         return render(request,"index.html",{"data":qs})
+
+# lh:8000/category-list
+# method:get
+    
+class CategoryListView(View):
+
+    def get(self,request,*args,**kwargs):
+        id=kwargs.get("pk")
+        qs=CakeVarient.objects.filter(cakecategory=id)
+        return render (request,"category_item_list.html",{"data":qs})
+    
+# cakedetails
+# lh:8000/cake/deatils
+# method:get
+
+class CakeDetailsView(View):
+
+    def get(self,request,*args,**kwargs):
+        id=kwargs.get("pk")
+        qs=CakeVarient.objects.get(id=id)
+        return render (request,"cake_detail.html",{"data":qs})
+
+#lh:8000/ 
+# class AddToBasketView(View):
+
+   
+
+
+
+
+
+
+
+
 
